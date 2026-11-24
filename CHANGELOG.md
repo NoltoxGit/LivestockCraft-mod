@@ -7,6 +7,19 @@ To preview it locally, run: git-cliff --output CHANGELOG.md -->
 All notable changes to LivestockCraft are documented in this file.
 Versions follow [CalVer](https://calver.org/) `YY.0W.MINOR` (ISO week).
 
+## [26.48.2-alpha](https://github.com/NoltoxGit/LivestockCraft-mod/compare/v26.48.1-alpha...v26.48.2-alpha) - 2026-11-24
+
+### 🪛 Build and dependencies
+
+- Add GeckoLib 4.x dependency for NeoForge and Fabric ([0c012bd](https://github.com/NoltoxGit/LivestockCraft-mod/commit/0c012bd0aae7e90fbd305338d98700cdca602786))
+
+### 👷 CI
+
+- Skip build workflow for docs-only changes ([2078ea8](https://github.com/NoltoxGit/LivestockCraft-mod/commit/2078ea8181b24c82623d4a905ca52eb38bc35b6d))
+
+### 📝 Documentation
+
+- Add [ci skip] rule for commits that cannot affect the build ([78da325](https://github.com/NoltoxGit/LivestockCraft-mod/commit/78da32551409eaca88212db5242338d2f63b4039))
 ## [26.48.1-alpha](https://github.com/NoltoxGit/LivestockCraft-mod/compare/v26.48.0-alpha...v26.48.1-alpha) - 2026-11-24
 
 ### 👷 CI
