@@ -196,9 +196,12 @@ To make Copilot generate messages in this format, add to `.vscode/settings.json`
 }
 ```
 
-### Changelog note
+### Changelog and releases
 
-`cliff.toml` (git-cliff) generates the changelog. If it parses conventional commits, adapt its commit parsers to the emoji format above before relying on it for releases.
+- `cliff.toml` (git-cliff) groups commits by their leading emoji. A commit without a known emoji lands in "Other changes", so always use the format above.
+- `CHANGELOG.md` is generated: never edit it by hand. Merge commits, `Initial commit` and `🔖` release commits are skipped.
+- Versions use CalVer `YY.0M.MINOR` (e.g. `26.11.0`). `MINOR` starts at `0` each month and only increases when there is more than one release in the same month. Pre-releases add `-alpha` or `-beta`.
+- Releases are made only by the `release` workflow (Actions > release > Run workflow). It sets the version, regenerates `CHANGELOG.md`, commits `🔖 Release vX`, tags it and publishes. Do not bump `mod.version` or create release tags by hand.
 
 ---
 

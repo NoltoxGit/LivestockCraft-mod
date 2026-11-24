@@ -76,7 +76,7 @@ fun Project.configureModPublishing(ctx: Context) {
 		additionalFiles.from(srcJarTask.flatMap(Jar::getArchiveFile))
 		type = releaseType
 		version = ctx.fullVersion
-		changelog.set(rootProject.file("CHANGELOG.md").readText())
+		changelog.set(rootProject.releaseChangelog())
 		modLoaders.add(ctx.loader.id)
 
 		displayName =

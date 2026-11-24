@@ -12,7 +12,7 @@ class ModRootPlugin : Plugin<Project> {
 			val properties = stonecutter.properties
 			val modVersion = properties.getAs<String>("mod.version")
 			val channelTag = properties.getAs<String>("mod.channel_tag")
-			val changelogText = file("CHANGELOG.md").takeIf { it.exists() }?.readText() ?: ""
+			val changelogText = releaseChangelog()
 			val githubToken = providers.environmentVariable("GITHUB_TOKEN")
 
 			extensions.configure<ModPublishExtension>("publishMods") {

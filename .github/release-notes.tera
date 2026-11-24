@@ -1,0 +1,19 @@
+{#- GitHub release body, in the usual "What's Changed" format.
+    Rendered by git-cliff with: git-cliff --unreleased --tag <tag> --strip all --body "$(cat .github/release-notes.tera)"
+    Uses cliff.toml for commit parsing and grouping. -#}
+{%- macro repo() -%}https://github.com/{{ remote.github.owner }}/{{ remote.github.repo }}{%- endmacro -%}
+## What's Changed
+{% for group, commits in commits | group_by(attribute="group") %}
+### {{ group | striptags | trim }}
+{% for commit in commits %}
+* {{ commit.message | split(pat="\n") | first | trim }}
+{%- if commit.remote.username %} by @{{ commit.remote.username }}{% endif %}
+{%- if commit.remote.pr_number %} in {{ self::repo() }}/pull/{{ commit.remote.pr_number }}
+{%- else %} in {{ commit.id | truncate(length=7, end="") }}{% endif %}
+{%- endfor %}
+{% endfor %}
+{% if previous.version -%}
+**Full Changelog**: {{ self::repo() }}/compare/{{ previous.version }}...{{ version }}
+{%- else -%}
+**Full Changelog**: {{ self::repo() }}/commits/{{ version }}
+{%- endif %}

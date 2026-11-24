@@ -37,6 +37,29 @@ Mod metadata (`fabric.mod.json`, `neoforge.mods.toml`) is generated at build tim
 `stonecutter.properties.toml` and the `platform { dependencies { ... } }` block of each
 `build.<loader>.gradle.kts`. Don't write these files by hand.
 
+## Versioning and releases
+
+LivestockCraft uses [CalVer](https://calver.org/) `YY.0M.MINOR`: `26.11.0` is the first
+release of November 2026, `26.11.1` the next one in the same month. Pre-releases end with
+`-alpha` or `-beta`. Changes are listed in [CHANGELOG.md](CHANGELOG.md).
+
+Releases are created from GitHub: **Actions > release > Run workflow**, pick a channel
+(`alpha`, `beta` or `release`). The workflow computes the version, updates
+`stonecutter.properties.toml` and `CHANGELOG.md`, builds both loaders, tags the commit,
+creates the GitHub release with the jars and, when enabled, publishes to Modrinth and
+CurseForge. Tick **dry-run** to check the version and notes without publishing anything.
+
+Publishing to Modrinth and CurseForge needs these repository settings
+(**Settings > Secrets and variables > Actions**):
+
+| Name | Type | Value |
+| ---- | ---- | ----- |
+| `PUB_MODS_ENABLE` | Variable | `true` |
+| `PUB_MODRINTH_PROJECT_ID` | Variable | Modrinth project ID |
+| `PUB_CURSEFORGE_PROJECT_ID` | Variable | CurseForge project ID |
+| `PUB_MODRINTH_TOKEN` | Secret | Modrinth personal access token |
+| `PUB_CURSEFORGE_TOKEN` | Secret | CurseForge API token |
+
 ## License
 
 [MIT](LICENSE). The build setup is based on

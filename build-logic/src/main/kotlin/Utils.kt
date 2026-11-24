@@ -30,6 +30,16 @@ fun Project.env(variable: String): String? {
 
 fun Project.envTrue(variable: String): Boolean = env(variable)?.toDefaultLowerCase() == "true"
 
+/**
+ * Changelog attached to published files. The release workflow points `PUB_CHANGELOG_FILE`
+ * to the notes of the version being released; CHANGELOG.md (full history) is the fallback.
+ */
+fun Project.releaseChangelog(): String {
+	val file = env("PUB_CHANGELOG_FILE")?.takeIf { it.isNotBlank() }?.let { rootProject.file(it) }
+		?: rootProject.file("CHANGELOG.md")
+	return file.takeIf { it.exists() }?.readText() ?: ""
+}
+
 fun releaseTypeFromChannelTag(channelTag: String): ReleaseType =
 	ReleaseType.of(channelTag.substringAfter('-').substringBefore('.').ifEmpty { "stable" })
 
