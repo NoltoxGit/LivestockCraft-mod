@@ -7,7 +7,7 @@ To preview it locally, run: git-cliff --output CHANGELOG.md -->
 All notable changes to LivestockCraft are documented in this file.
 Versions follow [CalVer](https://calver.org/) `YY.0M.MINOR`.
 
-## [Unreleased]
+## [26.11.0-alpha](https://github.com/NoltoxGit/LivestockCraft-mod/releases/tag/v26.11.0-alpha) - 2026-11-24
 
 ### 🎨 Models, textures and assets
 
