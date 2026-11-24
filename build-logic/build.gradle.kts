@@ -19,11 +19,13 @@ gradlePlugin {
 repositories {
 	mavenCentral()
 	gradlePluginPortal()
-	maven("https://maven.fabricmc.net/") { name = "Fabric" }
-	maven("https://maven.neoforged.net/releases/") { name = "NeoForged" }
-	maven("https://maven.kikugie.dev/snapshots") { name = "KikuGie Snapshots" }
-	maven("https://maven.kikugie.dev/releases") { name = "KikuGie Releases" }
-	maven("https://jitpack.io") { name = "Jitpack" }
+	exclusiveContent {
+		forRepositories(
+			maven("https://maven.kikugie.dev/releases") { name = "KikuGie Releases" },
+			maven("https://maven.kikugie.dev/snapshots") { name = "KikuGie Snapshots" },
+		)
+		filter { includeGroupAndSubgroups("dev.kikugie") }
+	}
 }
 
 dependencies {

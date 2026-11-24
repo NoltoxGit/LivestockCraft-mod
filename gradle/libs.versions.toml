@@ -1,18 +1,17 @@
 [versions]
-stonecutter = "0.10-beta.1"
+stonecutter = "0.10"
 stonecutter-postprocess = "2.1-beta.8"
-mod-publish = "2.1.1"
-loomx = "0.4.1"
-neoforge-moddev = "2.0.147"
+mod-publish = "2.2.1"
+loomx = "0.4.3"
+neoforge-moddev = "2.0.148"
 foojay = "1.0.0"
-devtools-ksp = "2.2.10-2.0.2"
-kotlin-jvm = "2.2.10"
+devtools-ksp = "2.3.14"
+kotlin-jvm = "2.4.21"
 fletching-table = "0.1.0-alpha.23"
 moulberry-mixinconstraints = "1.1.0"
-vanniktech-maven-publish = "0.35.0"
-mixin = "0.8.5"
-serialization-json = "1.7.3"
-serialization-toml = "0.6.0"
+vanniktech-maven-publish = "0.37.0"
+serialization-json = "1.13.0"
+serialization-toml = "0.6.1"
 
 [libraries]
 kikugie-postprocess = { module = "dev.kikugie:postprocess", version.ref = "stonecutter-postprocess" }

@@ -102,7 +102,8 @@ abstract class ModPlatformPlugin @Inject constructor() : Plugin<Project> {
 	private fun Project.configureJava(ctx: Context) {
 		extensions.configure<JavaPluginExtension>("java") {
 			withSourcesJar()
-			withJavadocJar()
+			// Javadoc is slow and only required by Maven Central; skip it otherwise.
+			if (envTrue("PUB_MAVEN_ENABLE")) withJavadocJar()
 			sourceCompatibility = ctx.javaVersion
 			targetCompatibility = ctx.javaVersion
 			toolchain {
@@ -177,8 +178,8 @@ abstract class ModPlatformPlugin @Inject constructor() : Plugin<Project> {
 			from(
 				tasks.named(ctx.extension.jarTask.get()),
 				tasks.named(ctx.extension.sourcesJarTask.get()),
-				tasks.named("javadocJar")
 			)
+			if (envTrue("PUB_MAVEN_ENABLE")) from(tasks.named("javadocJar"))
 			into(rootProject.layout.buildDirectory.file("libs/${ctx.basicVersion}"))
 			dependsOn("build")
 			group = "build"
