@@ -133,6 +133,25 @@ Commit messages must be **compatible with automatic commit generation in VS Code
 - One logical change per commit. Do not mix cleanup, features and fixes.
 - Do not add other prefixes (`feat:`, `fix:`...) - the emoji is the type.
 
+### Skipping CI (`[ci skip]`)
+
+Each push to `main` runs the build, CodeQL and dependency submission. Skip them when a commit cannot change the build, to save CI minutes.
+
+- Add `[ci skip]` as the **last line of the body** (not in the subject, so the changelog stays clean). A commit without bullets then has a body made of this single line.
+- Add it **only if every changed file** is in this list:
+  - Markdown documentation: `*.md` (README, AGENTS.md...), `docs/`
+  - `LICENSE`, `.editorconfig`, `.gitattributes`
+  - Editor settings: `.idea/`, `.vscode/`
+  - `.github/dependabot.yml`, issue and pull request templates
+- **Never** add it when the commit touches anything else, in particular:
+  - Java/Kotlin code, `src/main/resources` (lang files, models, textures, data): they end up in the jar
+  - Gradle and Stonecutter files, `gradle/`, `build-logic/`, `stonecutter.properties.toml`
+  - `.github/workflows/` (workflow changes must be tested by CI), `cliff.toml`, `.github/release-notes.tera`
+  - Dependencies of any kind
+- When unsure, do not skip.
+- GitHub only reads the message of the **last commit of a push**. If a push contains code commits, the last commit must not carry `[ci skip]`, otherwise the code is not built: push the documentation commit separately, or push it before the code.
+- `[ci skip]` only affects `push` and `pull_request` triggers. The manual `release` workflow is never skipped, and `CHANGELOG.md` is only written by that workflow.
+
 ### Emoji reference
 
 | Emoji | Use for |
@@ -182,6 +201,15 @@ Commit messages must be **compatible with automatic commit generation in VS Code
 🐛 Fix cow tier not synced to the client
 ```
 
+```text
+📝 Document the domestication tiers in README
+
+- Add a tier table with thresholds and yields
+- Link the config file reference
+
+[ci skip]
+```
+
 ### VS Code setup (maintainer)
 
 To make Copilot generate messages in this format, add to `.vscode/settings.json`:
@@ -190,7 +218,7 @@ To make Copilot generate messages in this format, add to `.vscode/settings.json`
 {
   "github.copilot.chat.commitMessageGeneration.instructions": [
     {
-      "text": "Write the commit message in English using this format: '{emoji} {simple and technical summary in imperative mood, max 72 chars}', then a blank line and a bullet list ('- ') of the changes made. Use one emoji from: ✨ feature, 🐛 fix, ♻️ refactor, ⚡ performance, 🔥 remove, 🪛 build/dependencies, 🔧 config, 🎨 assets/models, 🌍 lang, 📝 docs, ✅ tests, 👷 CI, 🔖 release, 🎉 setup, 🚧 WIP. No 'feat:'/'fix:' prefixes. No trailing period on the subject."
+      "text": "Write the commit message in English using this format: '{emoji} {simple and technical summary in imperative mood, max 72 chars}', then a blank line and a bullet list ('- ') of the changes made. Use one emoji from: ✨ feature, 🐛 fix, ♻️ refactor, ⚡ performance, 🔥 remove, 🪛 build/dependencies, 🔧 config, 🎨 assets/models, 🌍 lang, 📝 docs, ✅ tests, 👷 CI, 🔖 release, 🎉 setup, 🚧 WIP. No 'feat:'/'fix:' prefixes. No trailing period on the subject. Add the line '[ci skip]' at the end of the body ONLY if every staged file is outside the build: Markdown docs (*.md, docs/), AGENTS.md, LICENSE, .editorconfig, .gitattributes, .idea/, .vscode/, .github/dependabot.yml, issue or PR templates. Never add it if any Java/Kotlin code, resource or asset (src/), Gradle or Stonecutter file, workflow (.github/workflows/), cliff.toml or dependency changes."
     }
   ]
 }
@@ -214,5 +242,5 @@ A task is done only when:
 - [ ] The feature was checked in a running client when it is player-visible.
 - [ ] Domestication/yield values are configurable or data-driven where relevant.
 - [ ] No Forge or other-version leftovers, no dead example code.
-- [ ] Commits follow section 5.
+- [ ] Commits follow section 5 (`[ci skip]` only on commits that cannot affect the build).
 - [ ] The final report lists changes, verification evidence and open questions.
