@@ -1,0 +1,46 @@
+# Dependabot version updates.
+# Docs: https://docs.github.com/code-security/dependabot/working-with-dependabot/dependabot-options-reference
+#
+# Covered: gradle/libs.versions.toml (also used by build-logic), plugin versions
+# in settings.gradle.kts, the Gradle wrapper and GitHub Actions.
+# NOT covered: Minecraft-side versions in stonecutter.properties.toml
+# (fabric-loader, fabric-api, neoforge, modmenu...) and loomx.loom_version in
+# gradle.properties. Update those by hand.
+
+version: 2
+updates:
+  - package-ecosystem: "gradle"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      timezone: "Europe/Paris"
+    open-pull-requests-limit: 5
+    labels:
+      - "📦 dependencies"
+      - "🪛 gradle"
+    commit-message:
+      prefix: "🪛"
+    groups:
+      # Build plugins depend on each other (Kotlin/KSP, Stonecutter/postprocess...),
+      # so minor and patch bumps land together in a single PR.
+      gradle-minor-patch:
+        update-types:
+          - "minor"
+          - "patch"
+
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      timezone: "Europe/Paris"
+    labels:
+      - "📦 dependencies"
+      - "👷 github-actions"
+    commit-message:
+      prefix: "👷"
+    groups:
+      github-actions:
+        patterns:
+          - "*"
