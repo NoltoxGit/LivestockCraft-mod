@@ -6,7 +6,7 @@ version = "26.48.1"
 channel_tag = "-alpha"
 description = "Breeding and domestication: tame wild ancestors over generations into domestic livestock."
 authors = ["Noltox"]
-contributors = []
+contributors = ["LoupSauvage"]
 inception_year = "2026"
 license.name = "MIT"
 license.url = "https://opensource.org/licenses/MIT"
@@ -48,9 +48,13 @@ deps.fabric-loader = "0.20.1"
 deps.minecraft = "1.21.1"
 deps.fabric-api = "0.116.18+1.21.1"
 deps.modmenu = "11.0.5"
+# https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/software/bernie/geckolib/geckolib-fabric-1.21.1/
+deps.geckolib = "4.9.4"
 
 [neoforge]
 
 [neoforge."1.21.1"]
 deps.minecraft = "1.21.1"
 deps.neoforge = "21.1.267"
+# https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/software/bernie/geckolib/geckolib-neoforge-1.21.1/
+deps.geckolib = "4.9.4"

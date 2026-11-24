@@ -1,6 +1,6 @@
 # LivestockCraft
 
-> **Status: in development.** Not playable yet, no release published.
+> **Status: in development.** Only early alpha builds are published; no gameplay yet.
 
 LivestockCraft is a Minecraft mod about breeding and domestication. Wild ancestors
 (for example the aurochs) are tamed over several generations. At each domestication
@@ -18,8 +18,30 @@ Animals are modelled in [Blockbench](https://www.blockbench.net/) and animated w
 
 ## Dependencies
 
-* **GeckoLib** (required)
-* **Fabric API** (required, Fabric only)
+Install the jar matching your loader, together with the mods below. The game refuses
+to start with a clear error if a required mod is missing or too old.
+
+### NeoForge
+
+| Mod | Status | Minimum version |
+| --- | ------ | --------------- |
+| [NeoForge](https://neoforged.net/) | Required | 21.1.267 |
+| [GeckoLib](https://modrinth.com/mod/geckolib) 4.x | Required | 4.9.4 |
+
+### Fabric
+
+| Mod | Status | Minimum version |
+| --- | ------ | --------------- |
+| [Fabric Loader](https://fabricmc.net/use/) | Required | 0.20.1 |
+| [Fabric API](https://modrinth.com/mod/fabric-api) | Required | 0.116.18+1.21.1 |
+| [GeckoLib](https://modrinth.com/mod/geckolib) 4.x | Required | 4.9.4 |
+| [Mod Menu](https://modrinth.com/mod/modmenu) | Optional (mod list and config screen) | any |
+
+GeckoLib must be a 4.x version (GeckoLib 5 is not supported). Alpha builds up to
+`v26.48.1-alpha` did not need it yet.
+
+Minimum versions come from `stonecutter.properties.toml` and are enforced by the
+generated `fabric.mod.json` / `neoforge.mods.toml`.
 
 ## Building
 
@@ -36,6 +58,9 @@ in `src/main/java`, with loader-specific code isolated in `platform/{fabric,neof
 Mod metadata (`fabric.mod.json`, `neoforge.mods.toml`) is generated at build time from
 `stonecutter.properties.toml` and the `platform { dependencies { ... } }` block of each
 `build.<loader>.gradle.kts`. Don't write these files by hand.
+
+Models, animations and textures follow the Blockbench to GeckoLib workflow described in
+[docs/geckolib-workflow.md](docs/geckolib-workflow.md).
 
 ## Versioning and releases
 

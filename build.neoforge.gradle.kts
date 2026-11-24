@@ -12,6 +12,11 @@ platform {
 		required("neoforge") {
 			forgeLikeVersionRange.set("[${prop("deps.neoforge")},)")
 		}
+		required("geckolib") {
+			slug("geckolib")
+			// GeckoLib 4.x only: 5.x targets newer Minecraft versions with a different API.
+			forgeLikeVersionRange.set("[${prop("deps.geckolib")},5)")
+		}
 	}
 }
 
@@ -55,9 +60,11 @@ neoForge {
 repositories {
 	mavenCentral()
 	strictMaven("https://api.modrinth.com/maven", "maven.modrinth") { name = "Modrinth" }
+	strictMaven("https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/", "software.bernie.geckolib") { name = "GeckoLib" }
 }
 
 dependencies {
+	implementation("software.bernie.geckolib:geckolib-neoforge-${prop("deps.minecraft")}:${prop("deps.geckolib")}")
 	// implementation(libs.moulberry.mixinconstraints)
 	// jarJar(libs.moulberry.mixinconstraints)
 }

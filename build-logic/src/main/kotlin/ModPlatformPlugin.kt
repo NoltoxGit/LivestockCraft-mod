@@ -146,6 +146,8 @@ abstract class ModPlatformPlugin @Inject constructor() : Plugin<Project> {
 				expand("java" to javaVersionValue)
 			}
 			exclude(excluded)
+			// Placeholders that keep empty asset folders in git; never ship them.
+			exclude("**/.gitkeep")
 		}
 	}
 

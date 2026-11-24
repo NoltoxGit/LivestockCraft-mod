@@ -16,6 +16,11 @@ platform {
 		required("fabricloader") {
 			fabricLikeVersionRange = ">=${prop("deps.fabric-loader")}"
 		}
+		required("geckolib") {
+			slug("geckolib")
+			// GeckoLib 4.x only: 5.x targets newer Minecraft versions with a different API.
+			fabricLikeVersionRange = ">=${prop("deps.geckolib")} <5"
+		}
 		optional("modmenu") {}
 	}
 }
@@ -52,6 +57,7 @@ repositories {
 	mavenCentral()
 	strictMaven("https://maven.terraformersmc.com/", "com.terraformersmc") { name = "TerraformersMC" }
 	strictMaven("https://api.modrinth.com/maven", "maven.modrinth") { name = "Modrinth" }
+	strictMaven("https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/", "software.bernie.geckolib") { name = "GeckoLib" }
 }
 
 configurations.all {
@@ -72,4 +78,5 @@ dependencies {
 	// include(libs.moulberry.mixinconstraints)
 	modImplementation("net.fabricmc.fabric-api:fabric-api:${prop("deps.fabric-api")}")
 	modLocalRuntime("com.terraformersmc:modmenu:${prop("deps.modmenu")}")
+	modImplementation("software.bernie.geckolib:geckolib-fabric-${prop("deps.minecraft")}:${prop("deps.geckolib")}")
 }
