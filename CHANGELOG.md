@@ -7,6 +7,11 @@ To preview it locally, run: git-cliff --output CHANGELOG.md -->
 All notable changes to LivestockCraft are documented in this file.
 Versions follow [CalVer](https://calver.org/) `YY.0W.MINOR` (ISO week).
 
+## [26.48.0-alpha](https://github.com/NoltoxGit/LivestockCraft-mod/compare/v26.11.0-alpha...v26.48.0-alpha) - 2026-11-24
+
+### 👷 CI
+
+- Switch release versioning to ISO week CalVer ([c2b6f09](https://github.com/NoltoxGit/LivestockCraft-mod/commit/c2b6f09e62126f94fca1ef38e15947be8b4a5c71))
 ## [26.11.0-alpha](https://github.com/NoltoxGit/LivestockCraft-mod/releases/tag/v26.11.0-alpha) - 2026-11-24
 
 ### 🎨 Models, textures and assets
