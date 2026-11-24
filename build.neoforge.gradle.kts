@@ -3,13 +3,6 @@ plugins {
 	id("net.neoforged.moddev")
 }
 
-stonecutter {
-	replacements.string(current.parsed >= "1.21.11") {
-		replace("ResourceLocation", "Identifier")
-		replace("location()", "identifier()")
-	}
-}
-
 platform {
 	loader = "neoforge"
 	dependencies {

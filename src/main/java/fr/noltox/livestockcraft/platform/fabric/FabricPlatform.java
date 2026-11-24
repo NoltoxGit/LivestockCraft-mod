@@ -1,8 +1,8 @@
-package com.example.modtemplate.platform.fabric;
+package fr.noltox.livestockcraft.platform.fabric;
 
 //? fabric {
 
-import com.example.modtemplate.platform.Platform;
+import fr.noltox.livestockcraft.platform.Platform;
 import net.fabricmc.loader.api.FabricLoader;
 
 public class FabricPlatform implements Platform {

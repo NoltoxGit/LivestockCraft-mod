@@ -1,4 +1,4 @@
-package com.example.modtemplate.platform;
+package fr.noltox.livestockcraft.platform;
 
 public interface Platform {
 	boolean isModLoaded(String modId);
@@ -14,6 +14,6 @@ public interface Platform {
 	}
 
 	enum ModLoader {
-		FABRIC, NEOFORGE, FORGE, QUILT
+		FABRIC, NEOFORGE
 	}
 }

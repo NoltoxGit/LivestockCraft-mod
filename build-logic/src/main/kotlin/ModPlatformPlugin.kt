@@ -13,7 +13,6 @@ import org.gradle.api.tasks.TaskAction
 import org.gradle.jvm.tasks.Jar
 import org.gradle.kotlin.dsl.apply
 import org.gradle.kotlin.dsl.assign
-import org.gradle.kotlin.dsl.attributes
 import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.expand
 import org.gradle.kotlin.dsl.getByType
@@ -41,11 +40,6 @@ abstract class ModPlatformPlugin @Inject constructor() : Plugin<Project> {
 				extension.sourcesJarTask.convention(providers.provider {
 					extensions.getByType<dev.kikugie.loomx.LoomCompatProjectExtension>().modSourcesJar.name
 				})
-			}
-
-			is Loader.Forge -> {
-				extension.jarTask.convention("reobfJar")
-				extension.sourcesJarTask.convention("sourcesJar")
 			}
 
 			else -> {
@@ -159,9 +153,6 @@ abstract class ModPlatformPlugin @Inject constructor() : Plugin<Project> {
 		tasks.withType<Jar>().configureEach {
 			archiveBaseName.set(ctx.modId)
 			dependsOn(generateTask)
-			if (ctx.loader is Loader.Forge) {
-				manifest.attributes(ctx.loader.mixinConfigAttribute to "${ctx.modId}.mixins.json")
-			}
 		}
 	}
 

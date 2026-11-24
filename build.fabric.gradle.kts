@@ -3,16 +3,6 @@ plugins {
 	id("dev.kikugie.loom-back-compat")
 }
 
-stonecutter {
-	replacements.string(current.parsed >= "1.21.11") {
-		replace("ResourceLocation", "Identifier")
-		replace("location()", "identifier()")
-	}
-	replacements.string(current.parsed >= "26.1.2") {
-		replace("FabricDataOutput", "FabricPackOutput")
-	}
-}
-
 platform {
 	loader = "fabric"
 	dependencies {
@@ -72,13 +62,11 @@ configurations.all {
 
 dependencies {
 	minecraft("com.mojang:minecraft:${prop("deps.minecraft")}")
-	if (sc.current.parsed < "26") {
-		mappings(loom.layered {
-			officialMojangMappings()
-			if (sc.properties.contains("deps.parchment"))
-				parchment("org.parchmentmc.data:parchment-${prop("deps.parchment")}@zip")
-		})
-	}
+	mappings(loom.layered {
+		officialMojangMappings()
+		if (sc.properties.contains("deps.parchment"))
+			parchment("org.parchmentmc.data:parchment-${prop("deps.parchment")}@zip")
+	})
 	modImplementation("net.fabricmc:fabric-loader:${prop("deps.fabric-loader")}")
 	// implementation(libs.moulberry.mixinconstraints)
 	// include(libs.moulberry.mixinconstraints)

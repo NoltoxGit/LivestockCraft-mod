@@ -1,15 +1,15 @@
-package com.example.modtemplate.platform.neoforge;
+package fr.noltox.livestockcraft.platform.neoforge;
 
 //? neoforge {
 
-/*import com.example.modtemplate.ModTemplate;
+/*import fr.noltox.livestockcraft.LivestockCraft;
 import net.neoforged.fml.common.Mod;
 
-@Mod(ModTemplate.MOD_ID)
+@Mod(LivestockCraft.MOD_ID)
 public class NeoforgeEntrypoint {
 
 	public NeoforgeEntrypoint() {
-		ModTemplate.onInitialize();
+		LivestockCraft.onInitialize();
 	}
 }
 *///?}

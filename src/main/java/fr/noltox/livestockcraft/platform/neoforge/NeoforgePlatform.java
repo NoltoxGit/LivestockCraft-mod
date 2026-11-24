@@ -1,8 +1,8 @@
-package com.example.modtemplate.platform.neoforge;
+package fr.noltox.livestockcraft.platform.neoforge;
 
 //? neoforge {
 
-/*import com.example.modtemplate.platform.Platform;
+/*import fr.noltox.livestockcraft.platform.Platform;
 import net.neoforged.fml.ModList;
 import net.neoforged.fml.loading.FMLLoader;
 
@@ -18,10 +18,8 @@ public class NeoforgePlatform implements Platform {
 		return ModLoader.NEOFORGE;
 	}
 
-	//~ if >1.21.7 'FMLLoader.' -> 'FMLLoader.getCurrent().' {
 	@Override
 	public String mcVersion() {
-		//~ if >1.21.7 'versionInfo()' -> 'getVersionInfo()'
 		return FMLLoader.versionInfo().mcVersion();
 	}
 
@@ -29,6 +27,5 @@ public class NeoforgePlatform implements Platform {
 	public boolean isDevelopmentEnvironment() {
 		return !FMLLoader.isProduction();
 	}
-	//~}
 }
 *///?}
