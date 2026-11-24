@@ -2,7 +2,7 @@
 id = "livestockcraft"
 name = "LivestockCraft"
 group = "fr.noltox"
-version = "26.48.0"
+version = "26.48.1"
 channel_tag = "-alpha"
 description = "Breeding and domestication: tame wild ancestors over generations into domestic livestock."
 authors = ["Noltox"]
