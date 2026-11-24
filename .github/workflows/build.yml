@@ -1,6 +1,11 @@
 name: build
 on: [ push, pull_request ]
 
+# Least privilege: checkout only needs to read the repository.
+# upload-artifact does not use the GITHUB_TOKEN.
+permissions:
+  contents: read
+
 jobs:
   build:
     name: Build Project
