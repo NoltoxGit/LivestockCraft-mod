@@ -145,7 +145,11 @@ jobs:
           CHANNEL: ${{ inputs.channel }}
         run: |
           if [[ "$CHANNEL" == "release" ]]; then FLAG="--latest"; else FLAG="--prerelease"; fi
-          gh release create "$TAG" build/libs/*/*.jar \
+          # Only the playable mod jars (one per loader): no -sources / -javadoc jars.
+          mapfile -t JARS < <(find build/libs -name '*.jar' ! -name '*-sources.jar' ! -name '*-javadoc.jar' | sort)
+          printf 'Attaching: %s\n' "${JARS[@]}"
+          if [[ "${#JARS[@]}" -eq 0 ]]; then echo "::error::No mod jar found in build/libs."; exit 1; fi
+          gh release create "$TAG" "${JARS[@]}" \
             --verify-tag --title "$TAG" --notes-file "$NOTES_FILE" "$FLAG"
 
       - name: Publish to Modrinth and CurseForge
