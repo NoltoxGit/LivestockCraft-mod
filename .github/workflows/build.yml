@@ -1,5 +1,31 @@
 name: build
-on: [ push, pull_request ]
+
+# Skip the build when a push or PR only changes files that cannot affect it.
+# The run is skipped only if EVERY changed file matches. Keep this list in sync
+# with the "[ci skip]" rule in AGENTS.md (section 5).
+on:
+  push:
+    paths-ignore:
+      - '**.md'
+      - 'docs/**'
+      - 'LICENSE'
+      - '.editorconfig'
+      - '.gitattributes'
+      - '.idea/**'
+      - '.vscode/**'
+      - '.github/dependabot.yml'
+      - '.github/ISSUE_TEMPLATE/**'
+  pull_request:
+    paths-ignore:
+      - '**.md'
+      - 'docs/**'
+      - 'LICENSE'
+      - '.editorconfig'
+      - '.gitattributes'
+      - '.idea/**'
+      - '.vscode/**'
+      - '.github/dependabot.yml'
+      - '.github/ISSUE_TEMPLATE/**'
 
 # Least privilege: checkout only needs to read the repository.
 # upload-artifact does not use the GITHUB_TOKEN.

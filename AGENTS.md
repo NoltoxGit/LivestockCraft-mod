@@ -149,6 +149,7 @@ Each push to `main` runs the build, CodeQL and dependency submission. Skip them 
   - `.github/workflows/` (workflow changes must be tested by CI), `cliff.toml`, `.github/release-notes.tera`
   - Dependencies of any kind
 - When unsure, do not skip.
+- The `build` workflow also ignores these files on its own (`paths-ignore` in `.github/workflows/build.yml`), so a docs-only push does not build even without the marker. `[ci skip]` is still required: it also skips CodeQL and the other push workflows. Keep both lists in sync.
 - GitHub only reads the message of the **last commit of a push**. If a push contains code commits, the last commit must not carry `[ci skip]`, otherwise the code is not built: push the documentation commit separately, or push it before the code.
 - `[ci skip]` only affects `push` and `pull_request` triggers. The manual `release` workflow is never skipped, and `CHANGELOG.md` is only written by that workflow.
 
