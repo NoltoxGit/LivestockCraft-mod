@@ -1,9 +1,10 @@
 name: release
 
-# Manual CalVer release (YY.0M.MINOR): Actions > release > Run workflow.
+# Manual CalVer release (YY.0W.MINOR): Actions > release > Run workflow.
 #
-# 1. Computes the next version: YY.0M from today's date (UTC), MINOR = 0 for the
-#    first release of the month, then +1 for each extra release in the same month.
+# 1. Computes the next version: YY.0W = ISO week-based year and zero-padded ISO week
+#    of today's date (UTC), MINOR = 0 for the first release of the week, then +1 for
+#    each extra release in the same week.
 # 2. Writes it to stonecutter.properties.toml, regenerates CHANGELOG.md (git-cliff)
 #    and builds every loader.
 # 3. Commits "🔖 Release vX", tags it, creates the GitHub release with the jars,
@@ -54,8 +55,10 @@ jobs:
         env:
           CHANNEL: ${{ inputs.channel }}
         run: |
-          PREFIX="$(date -u +%y.%m)"
-          # Highest MINOR already released this month (any channel), -1 if none.
+          # %g/%V = ISO week-based year and week, so the last days of December
+          # that belong to week 01 are released under the next year.
+          PREFIX="$(date -u +%g.%V)"
+          # Highest MINOR already released this week (any channel), -1 if none.
           LAST="$(git tag --list "v${PREFIX}.*" \
             | sed -nE "s/^v${PREFIX}\.([0-9]+)(-.*)?$/\1/p" | sort -n | tail -n1)"
           MINOR=$(( ${LAST:--1} + 1 ))

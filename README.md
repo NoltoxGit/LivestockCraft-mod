@@ -39,9 +39,9 @@ Mod metadata (`fabric.mod.json`, `neoforge.mods.toml`) is generated at build tim
 
 ## Versioning and releases
 
-LivestockCraft uses [CalVer](https://calver.org/) `YY.0M.MINOR`: `26.11.0` is the first
-release of November 2026, `26.11.1` the next one in the same month. Pre-releases end with
-`-alpha` or `-beta`. Changes are listed in [CHANGELOG.md](CHANGELOG.md).
+LivestockCraft uses [CalVer](https://calver.org/) `YY.0W.MINOR`, based on the ISO week:
+`26.48.0` is the first release of week 48 of 2026, `26.48.1` the next one in the same
+week. Pre-releases end with `-alpha` or `-beta`. Changes are listed in [CHANGELOG.md](CHANGELOG.md).
 
 Releases are created from GitHub: **Actions > release > Run workflow**, pick a channel
 (`alpha`, `beta` or `release`). The workflow computes the version, updates

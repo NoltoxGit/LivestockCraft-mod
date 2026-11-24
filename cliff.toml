@@ -21,7 +21,7 @@ header = """
 # Changelog
 
 All notable changes to LivestockCraft are documented in this file.
-Versions follow [CalVer](https://calver.org/) `YY.0M.MINOR`.
+Versions follow [CalVer](https://calver.org/) `YY.0W.MINOR` (ISO week).
 
 """
 body = """
