@@ -2,6 +2,8 @@ import dev.kikugie.fletching_table.extension.FletchingTableExtension
 import org.gradle.api.DefaultTask
 import org.gradle.api.Plugin
 import org.gradle.api.Project
+import org.gradle.api.artifacts.VersionCatalogsExtension
+import org.gradle.api.tasks.testing.Test
 import org.gradle.api.file.RegularFileProperty
 import org.gradle.api.plugins.JavaPluginExtension
 import org.gradle.api.provider.Property
@@ -89,6 +91,7 @@ abstract class ModPlatformPlugin @Inject constructor() : Plugin<Project> {
 		configureIdea()
 		configureProcessResources(ctx)
 		configureJava(ctx)
+		configureTests()
 		registerBuildAndCollectTask(ctx)
 
 		configureModPublishing(ctx)
@@ -110,6 +113,18 @@ abstract class ModPlatformPlugin @Inject constructor() : Plugin<Project> {
 				languageVersion.set(JavaLanguageVersion.of(ctx.javaVersion.majorVersion))
 			}
 		}
+	}
+
+	/** JUnit for the shared `src/test` source set: pure, loader-agnostic logic only. */
+	private fun Project.configureTests() {
+		val libs = extensions.getByType<VersionCatalogsExtension>().named("libs")
+		fun lib(alias: String) = libs.findLibrary(alias).get()
+		dependencies.apply {
+			add("testImplementation", platform(lib("junit-bom")))
+			add("testImplementation", lib("junit-jupiter"))
+			add("testRuntimeOnly", lib("junit-platform-launcher"))
+		}
+		tasks.withType<Test>().configureEach { useJUnitPlatform() }
 	}
 
 	private fun Project.registerGenerateManifestTask(ctx: Context) {
