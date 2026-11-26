@@ -5,12 +5,20 @@ package fr.noltox.livestockcraft.platform.neoforge;
 /*import fr.noltox.livestockcraft.platform.Platform;
 import net.neoforged.fml.ModList;
 import net.neoforged.fml.loading.FMLLoader;
+import net.neoforged.fml.loading.FMLPaths;
+
+import java.nio.file.Path;
 
 public class NeoforgePlatform implements Platform {
 
 	@Override
 	public boolean isModLoaded(String modId) {
 		return ModList.get().isLoaded(modId);
+	}
+
+	@Override
+	public Path configDir() {
+		return FMLPaths.CONFIGDIR.get();
 	}
 
 	@Override
