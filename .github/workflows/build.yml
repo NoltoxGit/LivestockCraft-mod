@@ -57,9 +57,39 @@ jobs:
       - name: Build with Gradle
         run: ./gradlew buildAndCollect --no-daemon --stacktrace --console=plain
 
-      - name: Upload artifacts
+      # With 'archive: false' each jar is uploaded as-is (no .zip), but
+      # upload-artifact then accepts exactly one file per step, so there is one
+      # step per jar. The artifact is named after the file ('name' is ignored).
+      - name: Upload Fabric jar
         uses: actions/upload-artifact@v7
         with:
-          name: build-artifacts
-          path: build/libs/
+          path: |
+            build/libs/**/*-fabric+*.jar
+            !build/libs/**/*-sources.jar
+            !build/libs/**/*-javadoc.jar
           archive: false
+          if-no-files-found: error
+
+      - name: Upload Fabric sources jar
+        uses: actions/upload-artifact@v7
+        with:
+          path: build/libs/**/*-fabric+*-sources.jar
+          archive: false
+          if-no-files-found: error
+
+      - name: Upload NeoForge jar
+        uses: actions/upload-artifact@v7
+        with:
+          path: |
+            build/libs/**/*-neoforge+*.jar
+            !build/libs/**/*-sources.jar
+            !build/libs/**/*-javadoc.jar
+          archive: false
+          if-no-files-found: error
+
+      - name: Upload NeoForge sources jar
+        uses: actions/upload-artifact@v7
+        with:
+          path: build/libs/**/*-neoforge+*-sources.jar
+          archive: false
+          if-no-files-found: error
