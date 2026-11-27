@@ -7,6 +7,26 @@ To preview it locally, run: git-cliff --output CHANGELOG.md -->
 All notable changes to LivestockCraft are documented in this file.
 Versions follow [CalVer](https://calver.org/) `YY.0W.MINOR` (ISO week).
 
+## [26.48.3-alpha](https://github.com/NoltoxGit/LivestockCraft-mod/compare/v26.48.2-alpha...v26.48.3-alpha) - 2026-11-27
+
+### ✨ Features
+
+- Add loader-agnostic domestication core with unit tests ([9a803f1](https://github.com/NoltoxGit/LivestockCraft-mod/commit/9a803f1afc250724bc292eae8c7ee5dd68f386da))
+- Add Bovine entity and related assets ([5d884a6](https://github.com/NoltoxGit/LivestockCraft-mod/commit/5d884a6be0eba0bbc8b4eff55d930024799098e2))
+
+### 🔧 Configuration
+
+- Add livestockcraft.toml config loaded at startup ([da24e7a](https://github.com/NoltoxGit/LivestockCraft-mod/commit/da24e7aef898b21510f678a661ae285cd5ce2474))
+
+### 🪛 Build and dependencies
+
+- Add JUnit 6 test setup for the shared source set ([4aef260](https://github.com/NoltoxGit/LivestockCraft-mod/commit/4aef260d9e789603a25223550e3dc57b9270de1a))
+- Replace -SNAPSHOT with the CI build number in jar versions ([81d4854](https://github.com/NoltoxGit/LivestockCraft-mod/commit/81d48548d61ca77244f71087d39f3d48477337c1))
+- Update Gradle setup in build and release workflows ([730386c](https://github.com/NoltoxGit/LivestockCraft-mod/commit/730386c5bda385c71f6fb2893ad44af656b905a7))
+
+### 👷 CI
+
+- Upload each built jar as a separate unzipped artifact ([ddf9946](https://github.com/NoltoxGit/LivestockCraft-mod/commit/ddf99460b8d812d37743f0b462491e1d0c372585))
 ## [26.48.2-alpha](https://github.com/NoltoxGit/LivestockCraft-mod/compare/v26.48.1-alpha...v26.48.2-alpha) - 2026-11-24
 
 ### 🪛 Build and dependencies
