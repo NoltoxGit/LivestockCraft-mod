@@ -3,6 +3,8 @@ package fr.noltox.livestockcraft;
 import fr.noltox.livestockcraft.config.ConfigFile;
 import fr.noltox.livestockcraft.config.LivestockCraftConfig;
 import fr.noltox.livestockcraft.platform.Platform;
+import fr.noltox.livestockcraft.registry.ModEntities;
+import fr.noltox.livestockcraft.registry.ModItems;
 
 import net.minecraft.resources.ResourceLocation;
 import org.slf4j.Logger;
@@ -33,6 +35,9 @@ public class LivestockCraft {
 		LOGGER.info("Initializing {} on {}", MOD_ID, LivestockCraft.xplat().loader());
 		LOGGER.debug("{}: { version: {}; friendly_name: {} }", MOD_ID, MOD_VERSION, MOD_FRIENDLY_NAME);
 		loadConfig();
+		// Entities first: the spawn egg needs the entity type.
+		ModEntities.init();
+		ModItems.init();
 	}
 
 	/** Values from {@code livestockcraft.toml}, loaded once at startup. */
