@@ -60,7 +60,7 @@ repositories {
 	strictMaven("https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/", "software.bernie.geckolib") { name = "GeckoLib" }
 }
 
-configurations.all {
+configurations.configureEach {
 	resolutionStrategy {
 		force("net.fabricmc:fabric-loader:${prop("deps.fabric-loader")}")
 	}

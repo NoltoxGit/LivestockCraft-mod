@@ -4,13 +4,13 @@ import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.artifacts.VersionCatalogsExtension
 import org.gradle.api.tasks.testing.Test
-import org.gradle.api.file.RegularFileProperty
+import org.gradle.api.file.DirectoryProperty
 import org.gradle.api.plugins.JavaPluginExtension
 import org.gradle.api.provider.Property
 import org.gradle.jvm.toolchain.JavaLanguageVersion
 import org.gradle.api.tasks.Copy
 import org.gradle.api.tasks.Input
-import org.gradle.api.tasks.OutputFile
+import org.gradle.api.tasks.OutputDirectory
 import org.gradle.api.tasks.TaskAction
 import org.gradle.jvm.tasks.Jar
 import org.gradle.kotlin.dsl.apply
@@ -91,7 +91,7 @@ abstract class ModPlatformPlugin @Inject constructor() : Plugin<Project> {
 		configureIdea()
 		configureProcessResources(ctx)
 		configureJava(ctx)
-		configureTests()
+		configureTests(ctx)
 		registerBuildAndCollectTask(ctx)
 
 		configureModPublishing(ctx)
@@ -115,8 +115,12 @@ abstract class ModPlatformPlugin @Inject constructor() : Plugin<Project> {
 		}
 	}
 
-	/** JUnit for the shared `src/test` source set: pure, loader-agnostic logic only. */
-	private fun Project.configureTests() {
+	/**
+	 * JUnit for the shared `src/test` source set: pure, loader-agnostic logic only.
+	 * The tests are identical for every loader, so they only run on Fabric
+	 * (they still compile everywhere).
+	 */
+	private fun Project.configureTests(ctx: Context) {
 		val libs = extensions.getByType<VersionCatalogsExtension>().named("libs")
 		fun lib(alias: String) = libs.findLibrary(alias).get()
 		dependencies.apply {
@@ -124,32 +128,41 @@ abstract class ModPlatformPlugin @Inject constructor() : Plugin<Project> {
 			add("testImplementation", lib("junit-jupiter"))
 			add("testRuntimeOnly", lib("junit-platform-launcher"))
 		}
-		tasks.withType<Test>().configureEach { useJUnitPlatform() }
+		val runTests = ctx.loader is Loader.Fabric
+		tasks.withType<Test>().configureEach {
+			useJUnitPlatform()
+			enabled = runTests
+		}
 	}
 
 	private fun Project.registerGenerateManifestTask(ctx: Context) {
-		val manifestOutputDir = layout.buildDirectory.dir("generated/modManifest")
 		abstract class GenerateModManifestTask : DefaultTask() {
 			@get:Input
 			abstract val content: Property<String>
 
-			@get:OutputFile
-			abstract val outputFile: RegularFileProperty
+			/** Path of the manifest inside [outputDir], e.g. `META-INF/neoforge.mods.toml`. */
+			@get:Input
+			abstract val manifestPath: Property<String>
+
+			@get:OutputDirectory
+			abstract val outputDir: DirectoryProperty
 
 			@TaskAction
 			fun generate() {
-				val file = outputFile.get().asFile
+				val file = outputDir.file(manifestPath).get().asFile
 				file.parentFile.mkdirs()
 				file.writeText(content.get())
 			}
 		}
 		val generateTask = tasks.register<GenerateModManifestTask>("generateModManifest") {
 			content.set(ctx.loader.generateManifest(ctx))
-			outputFile.set(layout.buildDirectory.file("generated/modManifest/${ctx.loader.modManifestPath}"))
+			manifestPath.set(ctx.loader.modManifestPath)
+			outputDir.set(layout.buildDirectory.dir("generated/modManifest"))
 		}
 
-		the<JavaPluginExtension>().sourceSets.named("main") { resources.srcDir(manifestOutputDir) }
-		tasks.named<ProcessResources>("processResources") { dependsOn(generateTask) }
+		// Registering the task (not its directory) as a source dir makes every consumer of the
+		// main resources (processResources, sourcesJar...) depend on it without explicit dependsOn.
+		the<JavaPluginExtension>().sourceSets.named("main") { resources.srcDir(generateTask) }
 	}
 
 	private fun Project.configureProcessResources(ctx: Context) {
@@ -167,17 +180,15 @@ abstract class ModPlatformPlugin @Inject constructor() : Plugin<Project> {
 	}
 
 	private fun Project.configureJarTask(ctx: Context) {
-		val generateTask = tasks.named("generateModManifest")
 		tasks.withType<Jar>().configureEach {
 			archiveBaseName.set(ctx.modId)
-			dependsOn(generateTask)
 		}
 	}
 
 	private fun Project.configureIdea() {
 		extensions.configure<IdeaModel>("idea") {
 			module {
-				isDownloadJavadoc = true
+				// Sources only: Javadoc jars slow down the IDE sync and add nothing over sources.
 				isDownloadSources = true
 			}
 		}
