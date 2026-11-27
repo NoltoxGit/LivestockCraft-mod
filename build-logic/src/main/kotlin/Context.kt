@@ -91,7 +91,14 @@ class Context(
 
 	val isSnapshot: Boolean by lazy { !project.envTrue("MOD_IS_RELEASE") }
 	val baseVersion: String by lazy { "$modVersion$channelTag" }
-	val snapshotSuffix: String by lazy { if (isSnapshot) "-SNAPSHOT" else "" }
+	/**
+	 * Suffix of non-release builds: `-b<N>` on GitHub Actions, where N is the run number of the
+	 * workflow (e.g. `-b17` for the 17th `build` run), `-LOCALBUILD` for local builds.
+	 */
+	val snapshotSuffix: String by lazy {
+		if (!isSnapshot) ""
+		else project.env("GITHUB_RUN_NUMBER")?.takeIf { it.isNotBlank() }?.let { "-b$it" } ?: "-LOCALBUILD"
+	}
 	val fullVersion: String by lazy { "$baseVersion-${loader.id}+$currentMcVersion$snapshotSuffix" }
 	val basicVersion: String by lazy { "$baseVersion$snapshotSuffix" }
 
